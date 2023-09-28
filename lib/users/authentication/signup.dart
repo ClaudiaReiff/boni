@@ -1,15 +1,16 @@
-import 'package:boni/users/authentication/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
   @override
-  State<Login> createState() => _LoginState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
   var formKey = GlobalKey<FormState>();
+  var nameController = TextEditingController();
+  var surnameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
@@ -173,27 +174,6 @@ class _LoginState extends State<Login> {
                           ]),
                         ),
                       ),
-                      //dont have an account
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Don't have an account?",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  Get.to(const SignUp());
-                                },
-                                child: const Text(
-                                  "Register here",
-                                  style: TextStyle(color: Colors.blue),
-                                ))
-                          ],
-                        ),
-                      )
                     ],
                   ),
                 )
