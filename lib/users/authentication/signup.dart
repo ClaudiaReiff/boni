@@ -1,3 +1,4 @@
+import 'package:boni/users/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,6 @@ class _SignUpState extends State<SignUp> {
   var nameController = TextEditingController();
   var surnameController = TextEditingController();
   var emailController = TextEditingController();
-  var passwordController = TextEditingController();
   var isObsecure = true.obs;
 
   @override
@@ -27,13 +27,30 @@ class _SignUpState extends State<SignUp> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 420,
-                  child: Image.asset(
-                    "images/login.jpg",
-                    fit: BoxFit.cover,
-                  ),
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 400,
+                      child: Image.asset(
+                        "images/register.jpg",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                        top: 16,
+                        left: 16,
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(const Login());
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_sharp,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                        ))
+                  ],
                 ),
                 const SizedBox(height: 18),
                 Container(
@@ -63,6 +80,74 @@ class _SignUpState extends State<SignUp> {
                         child: Form(
                           key: formKey,
                           child: Column(children: [
+                            //name
+                            TextFormField(
+                              controller: nameController,
+                              validator: (val) =>
+                                  val == "" ? "Please enter name" : null,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                  hintText: "Name",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  contentPadding:
+                                      const EdgeInsetsDirectional.symmetric(
+                                          horizontal: 14, vertical: 6),
+                                  fillColor: Colors.white,
+                                  filled: true),
+                            ),
+                            const SizedBox(height: 15),
+                            //surname
+                            TextFormField(
+                              controller: surnameController,
+                              validator: (val) =>
+                                  val == "" ? "Please enter surname" : null,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                  hintText: "Surname",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white60)),
+                                  contentPadding:
+                                      const EdgeInsetsDirectional.symmetric(
+                                          horizontal: 14, vertical: 6),
+                                  fillColor: Colors.white,
+                                  filled: true),
+                            ),
+                            const SizedBox(height: 18),
                             //email
                             TextFormField(
                               controller: emailController,
@@ -97,58 +182,6 @@ class _SignUpState extends State<SignUp> {
                                   filled: true),
                             ),
                             const SizedBox(height: 18),
-                            //password
-                            Obx(() => TextFormField(
-                                  controller: passwordController,
-                                  obscureText: isObsecure.value,
-                                  validator: (val) => val == ""
-                                      ? "Please enter password"
-                                      : null,
-                                  decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.vpn_key_sharp,
-                                        color: Colors.black,
-                                      ),
-                                      suffixIcon: Obx(() => GestureDetector(
-                                            onTap: () {
-                                              isObsecure.value =
-                                                  !isObsecure.value;
-                                            },
-                                            child: Icon(
-                                              isObsecure.value
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
-                                              color: Colors.black,
-                                            ),
-                                          )),
-                                      hintText: "Password",
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                              color: Colors.white60)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                              color: Colors.white60)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                              color: Colors.white60)),
-                                      disabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                              color: Colors.white60)),
-                                      contentPadding:
-                                          const EdgeInsetsDirectional.symmetric(
-                                              horizontal: 14, vertical: 6),
-                                      fillColor: Colors.white,
-                                      filled: true),
-                                )),
-                            const SizedBox(height: 18),
                             SizedBox(
                               width: double.infinity,
                               child: Material(
@@ -162,7 +195,7 @@ class _SignUpState extends State<SignUp> {
                                         vertical: 10, horizontal: 28),
                                     child: Center(
                                       child: Text(
-                                        "Login",
+                                        "Sign Up",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 16),
                                       ),
