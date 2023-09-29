@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:boni/api/api_connection.dart';
 import 'package:boni/users/authentication/login.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,12 +24,18 @@ class _SignUpState extends State<SignUp> {
 
   void validateUserEmail() async {
     try {
-      http.post(
-        Uri.parse(API.validateEmail),
-        body: {
+      var response = await http.post(Uri.parse(API.validateEmail),
+          body: {'email': emailController.text});
+
+      if (response.statusCode == 200) {
+        var resBody = jsonDecode(response.body);
+        if (resBody['exist']) {
+          Fluttertoast.showToast(
+              msg: "Email is already in use. Try another email.");
+        } else {
           
         }
-      )
+      }
     } catch (e) {}
   }
 
