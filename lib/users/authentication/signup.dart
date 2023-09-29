@@ -1,6 +1,8 @@
+import 'package:boni/api/api_connection.dart';
 import 'package:boni/users/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -10,10 +12,23 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   var formKey = GlobalKey<FormState>();
+
   var nameController = TextEditingController();
   var surnameController = TextEditingController();
   var emailController = TextEditingController();
+
   var isObsecure = true.obs;
+
+  void validateUserEmail() async {
+    try {
+      http.post(
+        Uri.parse(API.validateEmail),
+        body: {
+          
+        }
+      )
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +203,12 @@ class _SignUpState extends State<SignUp> {
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(30),
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    if (formKey.currentState!.validate()) {
+                                      //validate email
+                                      validateUserEmail();
+                                    }
+                                  },
                                   borderRadius: BorderRadius.circular(30),
                                   child: const Padding(
                                     padding: EdgeInsets.symmetric(
