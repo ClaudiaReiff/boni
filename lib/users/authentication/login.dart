@@ -23,26 +23,30 @@ class _LoginState extends State<Login> {
   var isObsecure = true.obs;
 
   void login() async {
-    var response = await http.post(Uri.parse(API.login), body: {
-      'email': emailController.text.trim(),
-      'password': passwordController.text.trim()
-    });
+    try {
+      var response = await http.post(Uri.parse(API.login), body: {
+        'email': emailController.text.trim(),
+        'password': passwordController.text.trim()
+      });
 
-    if (response.statusCode == 200) {
-      var resBody = jsonDecode(response.body);
-      if (resBody['success']) {
-        Fluttertoast.showToast(msg: "Logged-in successfully.");
-        User user = User.fromJson(resBody["userData"]);
+      if (response.statusCode == 200) {
+        var resBody = jsonDecode(response.body);
+        if (resBody['success']) {
+          Fluttertoast.showToast(msg: "Logged-in successfully.");
+          User user = User.fromJson(resBody["userData"]);
 
-        await UserPreferences.savePreferences(user);
+          await UserPreferences.storeUserInfo(user);
 
-        Future.delayed(const Duration(milliseconds: 2000), () {
-          Get.to(const Dashboard());
-        });
-      } else {
-        Fluttertoast.showToast(
-            msg: "Email or password incorrect.\nPlease try again.");
+          Future.delayed(const Duration(milliseconds: 2000), () {
+            Get.to(const Dashboard());
+          });
+        } else {
+          Fluttertoast.showToast(
+              msg: "Email or password incorrect.\nPlease try again.");
+        }
       }
+    } catch (e) {
+      print("Error:: " + e.toString());
     }
   }
 
@@ -187,7 +191,9 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(30),
                                 child: InkWell(
                                   onTap: () {
-                                    login();
+                                    if (formKey.currentState!.validate()) {
+                                      login();
+                                    }
                                   },
                                   borderRadius: BorderRadius.circular(30),
                                   child: const Padding(
