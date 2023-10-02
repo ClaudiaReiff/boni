@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:boni/api/api_connection.dart';
 import 'package:boni/users/authentication/login.dart';
+import 'package:boni/users/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   var nameController = TextEditingController();
   var surnameController = TextEditingController();
   var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   var isObsecure = true.obs;
 
@@ -29,14 +31,38 @@ class _SignUpState extends State<SignUp> {
 
       if (response.statusCode == 200) {
         var resBody = jsonDecode(response.body);
-        if (resBody['exist']) {
+        if (resBody['emailFound']) {
           Fluttertoast.showToast(
               msg: "Email is already in use. Try another email.");
         } else {
-          
+          saveUser();
         }
       }
     } catch (e) {}
+  }
+
+  void saveUser() async {
+    User user = User(
+        0,
+        nameController.text.trim(),
+        surnameController.text.trim(),
+        emailController.text.trim(),
+        passwordController.text.trim());
+
+    try {
+      var response =
+          await http.post(Uri.parse(API.signUp), body: user.toJson());
+      if (response.statusCode == 200) {
+        var resBody = jsonDecode(response.body);
+        if (resBody['success']) {
+          Fluttertoast.showToast(msg: "Signed up successfully.");
+        } else {
+          Fluttertoast.showToast(msg: "Error occured. Please try again.");
+        }
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   @override
