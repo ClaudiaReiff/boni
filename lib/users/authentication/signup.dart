@@ -56,6 +56,12 @@ class _SignUpState extends State<SignUp> {
         var resBody = jsonDecode(response.body);
         if (resBody['success']) {
           Fluttertoast.showToast(msg: "Signed up successfully.");
+          setState(() {
+            nameController.clear();
+            surnameController.clear();
+            emailController.clear();
+            passwordController.clear();
+          });
         } else {
           Fluttertoast.showToast(msg: "Error occured. Please try again.");
         }
@@ -81,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: 400,
+                      height: 360,
                       child: Image.asset(
                         "images/register.jpg",
                         fit: BoxFit.cover,
@@ -231,6 +237,58 @@ class _SignUpState extends State<SignUp> {
                                   fillColor: Colors.white,
                                   filled: true),
                             ),
+                            const SizedBox(height: 18),
+                            //password
+                            Obx(() => TextFormField(
+                                  controller: passwordController,
+                                  obscureText: isObsecure.value,
+                                  validator: (val) => val == ""
+                                      ? "Please enter password"
+                                      : null,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.vpn_key_sharp,
+                                        color: Colors.black,
+                                      ),
+                                      suffixIcon: Obx(() => GestureDetector(
+                                            onTap: () {
+                                              isObsecure.value =
+                                                  !isObsecure.value;
+                                            },
+                                            child: Icon(
+                                              isObsecure.value
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: Colors.black,
+                                            ),
+                                          )),
+                                      hintText: "Password",
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          borderSide: const BorderSide(
+                                              color: Colors.white60)),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          borderSide: const BorderSide(
+                                              color: Colors.white60)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          borderSide: const BorderSide(
+                                              color: Colors.white60)),
+                                      disabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          borderSide: const BorderSide(
+                                              color: Colors.white60)),
+                                      contentPadding:
+                                          const EdgeInsetsDirectional.symmetric(
+                                              horizontal: 14, vertical: 6),
+                                      fillColor: Colors.white,
+                                      filled: true),
+                                )),
                             const SizedBox(height: 18),
                             SizedBox(
                               width: double.infinity,
