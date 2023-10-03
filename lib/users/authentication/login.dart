@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:boni/fragments/dashboard.dart';
+import 'package:boni/fragments/home.dart';
+import 'package:boni/fragments/navigation.dart';
 import 'package:boni/users/authentication/signup.dart';
 import 'package:boni/users/model/user.dart';
 import 'package:boni/users/preferences/user_preferences.dart';
@@ -38,7 +39,7 @@ class _LoginState extends State<Login> {
           await UserPreferences.storeUserInfo(user);
 
           Future.delayed(const Duration(milliseconds: 2000), () {
-            Get.to(const Dashboard());
+            Get.to(Navigation());
           });
         } else {
           Fluttertoast.showToast(
