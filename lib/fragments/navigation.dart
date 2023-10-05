@@ -9,11 +9,9 @@ class Navigation extends StatelessWidget {
   Navigation({super.key});
 
   CurrentUser currentUser = Get.put(CurrentUser());
-  final List<Widget> _menuItems = [
-    const Home(),
-    const Search(),
-    const Profile()
-  ];
+
+  final List<Widget> _menuItems = [const Home(), const Search(), Profile()];
+
   final List _navigationProperties = [
     {
       "active_icon": Icons.home,

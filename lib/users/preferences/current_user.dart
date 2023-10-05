@@ -8,7 +8,7 @@ class CurrentUser extends GetxController {
   User get user => _currentUser.value;
 
   getUserInfo() async {
-    User? userInfo = await UserPreferences.readUserInfo();
-    _currentUser.value = userInfo!;
+    User? userInfoLocalStorage = await UserPreferences.readUserInfo();
+    _currentUser.value = userInfoLocalStorage!;
   }
 }

@@ -62,6 +62,7 @@ class _SignUpState extends State<SignUp> {
             emailController.clear();
             passwordController.clear();
           });
+          Get.to(const Login());
         } else {
           Fluttertoast.showToast(msg: "Error occured. Please try again.");
         }

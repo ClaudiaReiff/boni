@@ -1,4 +1,6 @@
+import 'package:boni/fragments/navigation.dart';
 import 'package:boni/users/authentication/login.dart';
+import 'package:boni/users/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
@@ -19,9 +21,14 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
-          future: null,
+          future: UserPreferences.readUserInfo(),
+          //automatically login if user info given
           builder: (context, snapshot) {
-            return const Login();
+            if (snapshot.data == null) {
+              return const Login();
+            } else {
+              return Navigation();
+            }
           },
         ));
   }
