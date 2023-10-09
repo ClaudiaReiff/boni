@@ -5,8 +5,12 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Search")),
+    return Scaffold(
+      body: const Center(child: Text("Search")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.search),
+      ),
     );
   }
 }

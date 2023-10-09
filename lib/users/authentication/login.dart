@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:boni/fragments/home.dart';
 import 'package:boni/fragments/navigation.dart';
 import 'package:boni/users/authentication/signup.dart';
 import 'package:boni/users/model/user.dart';
