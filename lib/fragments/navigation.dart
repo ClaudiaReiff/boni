@@ -1,4 +1,5 @@
 import 'package:boni/fragments/home.dart';
+import 'package:boni/fragments/map.dart';
 import 'package:boni/fragments/profile.dart';
 import 'package:boni/fragments/search.dart';
 import 'package:boni/users/preferences/current_user.dart';
@@ -10,7 +11,12 @@ class Navigation extends StatelessWidget {
 
   CurrentUser currentUser = Get.put(CurrentUser());
 
-  final List<Widget> _menuItems = [const Home(), const Search(), Profile()];
+  final List<Widget> _menuItems = [
+    const Home(),
+    const Search(),
+    Maps(),
+    Profile()
+  ];
 
   final List _navigationProperties = [
     {
@@ -22,6 +28,11 @@ class Navigation extends StatelessWidget {
       "active_icon": Icons.search,
       "none_active_icon": Icons.search_outlined,
       "label": "Search"
+    },
+    {
+      "active_icon": Icons.map,
+      "none_active_icon": Icons.map_outlined,
+      "label": "Map"
     },
     {
       "active_icon": Icons.person,
@@ -56,7 +67,7 @@ class Navigation extends StatelessWidget {
                   selectedItemColor: Colors.white,
                   unselectedItemColor: Colors.white60,
                   backgroundColor: Colors.black,
-                  items: List.generate(3, (index) {
+                  items: List.generate(4, (index) {
                     var navProperties = _navigationProperties[index];
                     return BottomNavigationBarItem(
                         backgroundColor: Colors.black,
