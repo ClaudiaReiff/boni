@@ -65,14 +65,20 @@ class Navigation extends StatelessWidget {
                   showSelectedLabels: true,
                   showUnselectedLabels: true,
                   selectedItemColor: Colors.white,
-                  unselectedItemColor: Colors.white60,
+                  unselectedItemColor: Colors.white,
                   backgroundColor: Colors.black,
                   items: List.generate(4, (index) {
                     var navProperties = _navigationProperties[index];
                     return BottomNavigationBarItem(
                         backgroundColor: Colors.black,
-                        icon: Icon(navProperties["non_active_icon"]),
-                        activeIcon: Icon(navProperties["active_icon"]),
+                        icon: Icon(
+                          navProperties["non_active_icon"],
+                          color: Colors.white,
+                        ),
+                        activeIcon: Icon(
+                          navProperties["active_icon"],
+                          color: Colors.white,
+                        ),
                         label: navProperties["label"]);
                   }),
                 )),

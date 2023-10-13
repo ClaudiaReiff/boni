@@ -12,6 +12,7 @@ class Maps extends StatefulWidget {
 
 class _Maps extends State<Maps> {
   final Completer<GoogleMapController> _controller = Completer();
+
   final List<Marker> myMarker = [];
   final List<Marker> markerList = [
     Marker(
@@ -37,7 +38,7 @@ class _Maps extends State<Maps> {
   ];
 
   static const CameraPosition _initialPosition = CameraPosition(
-      target: LatLng(33.67809150625739, 73.0143207993158), zoom: 10);
+      target: LatLng(33.67809150625739, 73.0143207993158), zoom: 12);
 
   @override
   void initState() {

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:boni/api/api_connection.dart';
+import 'package:boni/fragments/navigation.dart';
 import 'package:boni/users/authentication/login.dart';
 import 'package:boni/users/model/user.dart';
+import 'package:boni/users/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -56,13 +58,10 @@ class _SignUpState extends State<SignUp> {
         var resBody = jsonDecode(response.body);
         if (resBody['success']) {
           Fluttertoast.showToast(msg: "Signed up successfully.");
-          setState(() {
-            nameController.clear();
-            surnameController.clear();
-            emailController.clear();
-            passwordController.clear();
-          });
-          Get.to(const Login());
+
+          User user = User.fromJson(resBody["userData"]);
+          await UserPreferences.storeUserInfo(user);
+          Get.to(Navigation());
         } else {
           Fluttertoast.showToast(msg: "Error occured. Please try again.");
         }
@@ -70,6 +69,35 @@ class _SignUpState extends State<SignUp> {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
+  }
+
+  String? validatePassword(String value) {
+    String pattern =
+        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$';
+    RegExp regex = RegExp(pattern);
+
+    if (!regex.hasMatch(value)) {
+      return 'Invalid password given.';
+    } else {
+      return null;
+    }
+  }
+
+  String? validateEmail(String email) {
+    if (email == "") {
+      return "Please enter your email address";
+    }
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  String? validateName(String value) {
+    if (value.isEmpty || value.contains(RegExp(r'[0-9]'))) {
+      return 'Please enter a valid name';
+    }
+    return null;
   }
 
   @override
@@ -140,8 +168,7 @@ class _SignUpState extends State<SignUp> {
                             //name
                             TextFormField(
                               controller: nameController,
-                              validator: (val) =>
-                                  val == "" ? "Please enter name" : null,
+                              validator: (value) => validateName(value!),
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(
                                     Icons.person,
@@ -174,8 +201,7 @@ class _SignUpState extends State<SignUp> {
                             //surname
                             TextFormField(
                               controller: surnameController,
-                              validator: (val) =>
-                                  val == "" ? "Please enter surname" : null,
+                              validator: (value) => validateName(value!),
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(
                                     Icons.person,
@@ -208,8 +234,8 @@ class _SignUpState extends State<SignUp> {
                             //email
                             TextFormField(
                               controller: emailController,
-                              validator: (val) =>
-                                  val == "" ? "Please enter email" : null,
+                              validator: (value) => validateEmail(value!),
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(
                                     Icons.email,
@@ -243,9 +269,9 @@ class _SignUpState extends State<SignUp> {
                             Obx(() => TextFormField(
                                   controller: passwordController,
                                   obscureText: isObsecure.value,
-                                  validator: (val) => val == ""
-                                      ? "Please enter password"
-                                      : null,
+                                  validator: (value) =>
+                                      validatePassword(value!),
+                                  keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.vpn_key_sharp,

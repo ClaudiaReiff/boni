@@ -49,6 +49,28 @@ class _LoginState extends State<Login> {
     }
   }
 
+  String? validatePassword(String value) {
+    String pattern =
+        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$';
+    RegExp regex = RegExp(pattern);
+
+    if (!regex.hasMatch(value)) {
+      return 'Invalid password given.';
+    } else {
+      return null;
+    }
+  }
+
+  String? validateEmail(String email) {
+    if (email == "") {
+      return "Please enter your email address";
+    }
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,8 +122,8 @@ class _LoginState extends State<Login> {
                             //email
                             TextFormField(
                               controller: emailController,
-                              validator: (val) =>
-                                  val == "" ? "Please enter email" : null,
+                              validator: (value) => validateEmail(value!),
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(
                                     Icons.email,
@@ -135,9 +157,8 @@ class _LoginState extends State<Login> {
                             Obx(() => TextFormField(
                                   controller: passwordController,
                                   obscureText: isObsecure.value,
-                                  validator: (val) => val == ""
-                                      ? "Please enter password"
-                                      : null,
+                                  validator: (value) =>
+                                      validatePassword(value!),
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.vpn_key_sharp,
