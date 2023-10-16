@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:boni/fragments/route_page.dart';
+import 'package:boni/route/route_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -24,17 +24,7 @@ class _Maps extends State<Maps> {
           id: 1,
         ));
       },
-    ),
-    Marker(
-      markerId: const MarkerId('2'),
-      position: const LatLng(33.67809150625739, 73.0143207993158),
-      infoWindow: const InfoWindow(title: "Route 2"),
-      onTap: () {
-        Get.to(const RoutePage(
-          id: 2,
-        ));
-      },
-    ),
+    )
   ];
 
   static const CameraPosition _initialPosition = CameraPosition(
@@ -44,7 +34,6 @@ class _Maps extends State<Maps> {
   void initState() {
     super.initState();
     myMarker.addAll(markerList);
-    //packData();
   }
 
   Future<Position> getUserLocation() async {
@@ -86,11 +75,17 @@ class _Maps extends State<Maps> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.location_searching),
-        onPressed: () async {
-          packData();
-        },
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(left: 24.0),
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: FloatingActionButton(
+            child: const Icon(Icons.location_searching),
+            onPressed: () async {
+              packData();
+            },
+          ),
+        ),
       ),
     );
   }
