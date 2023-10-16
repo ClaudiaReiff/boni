@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:boni/api/api_connection.dart';
 import 'package:get/get.dart';
+import 'package:boni/route/model/hiking_route.dart';
 
 class RoutePage extends StatefulWidget {
   final int id;
@@ -37,7 +38,8 @@ class _RoutePageState extends State<RoutePage> {
       if (response.statusCode == 200) {
         var resBody = jsonDecode(response.body);
         if (resBody['success']) {
-          print("Route successfully fetched");
+          HikingRoute route = HikingRoute.fromJson(resBody["routeData"]);
+          print(route.name);
         }
       }
     } catch (e) {}

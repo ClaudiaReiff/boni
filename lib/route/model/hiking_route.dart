@@ -1,4 +1,4 @@
-class Route {
+class HikingRoute {
   int id = 0;
   String name = "";
   String description = "";
@@ -7,10 +7,10 @@ class Route {
   double altitude = 0.0;
   String coordinates = "";
 
-  Route(this.id, this.name, this.description, this.length, this.duration,
+  HikingRoute(this.id, this.name, this.description, this.length, this.duration,
       this.altitude, this.coordinates);
 
-  factory Route.fromJson(Map<String, dynamic> json) => Route(
+  factory HikingRoute.fromJson(Map<String, dynamic> json) => HikingRoute(
       int.parse(json['id']),
       json["name"],
       json["description"],
