@@ -17,8 +17,8 @@ class _Maps extends State<Maps> {
   final List<Marker> markerList = [
     Marker(
       markerId: const MarkerId('1'),
-      position: const LatLng(33.67809150625739, 73.0143207993158),
-      infoWindow: const InfoWindow(title: "Route 1"),
+      position: const LatLng(47.18204341853182, 12.229012076544146),
+      infoWindow: const InfoWindow(title: "Seebachsee im Obersulzbachtal"),
       onTap: () {
         Get.to(const RoutePage(
           id: 1,
@@ -28,7 +28,7 @@ class _Maps extends State<Maps> {
   ];
 
   static const CameraPosition _initialPosition = CameraPosition(
-      target: LatLng(33.67809150625739, 73.0143207993158), zoom: 12);
+      target: LatLng(47.18204341853182, 12.229012076544146), zoom: 12);
 
   @override
   void initState() {
@@ -49,9 +49,9 @@ class _Maps extends State<Maps> {
       print('${value.latitude} ${value.longitude}');
 
       myMarker.add(Marker(
-          markerId: const MarkerId('5'),
+          markerId: const MarkerId('My Location'),
           position: LatLng(value.latitude, value.longitude),
-          infoWindow: const InfoWindow(title: 'Location')));
+          infoWindow: const InfoWindow(title: 'My Location')));
 
       CameraPosition cameraPosition = CameraPosition(
           target: LatLng(value.latitude, value.longitude), zoom: 10);

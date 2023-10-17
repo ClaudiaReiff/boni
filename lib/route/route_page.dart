@@ -39,7 +39,6 @@ class _RoutePageState extends State<RoutePage> {
         var resBody = jsonDecode(response.body);
         if (resBody['success']) {
           HikingRoute route = HikingRoute.fromJson(resBody["routeData"]);
-          print(route.name);
         }
       }
     } catch (e) {}
@@ -94,6 +93,7 @@ class _RoutePageState extends State<RoutePage> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       children: [
@@ -169,7 +169,7 @@ class _RoutePageState extends State<RoutePage> {
                         ),
                         SizedBox(width: 4),
                         Text(
-                          '46,8 km',
+                          'Route 1',
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.blue,
