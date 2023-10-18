@@ -72,7 +72,10 @@ class _RoutePageState extends State<RoutePage> {
                   child: Stack(
                     children: [
                       GoogleMap(
-                        initialCameraPosition: _initialPosition,
+                        initialCameraPosition: CameraPosition(
+                            target: LatLng(route?.longitude ?? 0.0,
+                                route?.latitude ?? 0.0),
+                            zoom: 12),
                         mapType: MapType.normal,
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
@@ -102,7 +105,6 @@ class _RoutePageState extends State<RoutePage> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               route?.name ?? "",
@@ -113,20 +115,6 @@ class _RoutePageState extends State<RoutePage> {
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const Row(
-                              children: [
-                                Icon(Icons.emoji_events, color: Colors.white),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                Text(
-                                  '10 points',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            )
                           ],
                         ),
                         const SizedBox(
@@ -178,18 +166,25 @@ class _RoutePageState extends State<RoutePage> {
                         const SizedBox(
                           height: 15.0,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.height,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
-                                  'Route 1',
+                                  route?.length.toString() ?? "",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Text(
+                                  " km",
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.blue,
@@ -199,13 +194,20 @@ class _RoutePageState extends State<RoutePage> {
                             ),
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.arrow_upward,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
-                                  '1.587 hm',
+                                  route?.altitude.toString() ?? "",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Text(
+                                  " hm",
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.red,
@@ -213,7 +215,7 @@ class _RoutePageState extends State<RoutePage> {
                                 ),
                               ],
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Icon(
                                   Icons.schedule,
