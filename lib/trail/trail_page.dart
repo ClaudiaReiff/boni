@@ -7,63 +7,103 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:boni/api/api_connection.dart';
 import 'package:get/get.dart';
-import 'package:boni/route/model/hiking_route.dart';
+import 'package:boni/trail/model/hiking_trail.dart';
+import 'package:boni/fragments/qr_scanner.dart';
 
-class RoutePage extends StatefulWidget {
+class TrailPage extends StatefulWidget {
   final int id;
-  const RoutePage({super.key, required this.id});
+  const TrailPage({super.key, required this.id});
 
   @override
-  State<RoutePage> createState() => _RoutePageState();
+  State<TrailPage> createState() => _TrailPageState();
 }
 
-class _RoutePageState extends State<RoutePage> {
+class _TrailPageState extends State<TrailPage> {
   final Completer<GoogleMapController> _controller = Completer();
+
+  final List<Marker> myMarker = [];
+  final List<Marker> markerList = [
+    Marker(
+      markerId: const MarkerId('1'),
+      position: const LatLng(47.206145349025235, 12.25229168119671),
+      infoWindow: const InfoWindow(title: "Start"),
+      onTap: () {
+        Get.to(const TrailPage(
+          id: 1,
+        ));
+      },
+    ),
+    Marker(
+      markerId: const MarkerId('2'),
+      position: const LatLng(47.18224829152682, 12.231391908429206),
+      infoWindow: const InfoWindow(title: "See"),
+      onTap: () {
+        Get.to(const TrailPage(
+          id: 1,
+        ));
+      },
+    ),
+    Marker(
+      markerId: const MarkerId('3'),
+      position: const LatLng(47.206145349025235, 12.25229168119671),
+      infoWindow: const InfoWindow(title: "Ende"),
+      onTap: () {
+        Get.to(const TrailPage(
+          id: 1,
+        ));
+      },
+    )
+  ];
 
   @override
   void initState() {
     super.initState();
-    getRoute();
+    getTrail();
+    myMarker.addAll(markerList);
   }
-
-  static const CameraPosition _initialPosition = CameraPosition(
-      target: LatLng(33.67809150625739, 73.0143207993158), zoom: 12);
 
   void setFavourite() {}
 
-  Future<HikingRoute> getRoute() async {
-    HikingRoute route = HikingRoute();
+  Future<HikingTrail> getTrail() async {
+    HikingTrail trail = HikingTrail();
     try {
       var response = await http
-          .post(Uri.parse(API.getRoute), body: {'id': widget.id.toString()});
+          .post(Uri.parse(API.getTrail), body: {'id': widget.id.toString()});
       if (response.statusCode == 200) {
         var resBody = jsonDecode(response.body);
         if (resBody['success']) {
-          route = HikingRoute.fromJson(resBody["routeData"]);
+          trail = HikingTrail.fromJson(resBody["trailData"]);
         }
       }
     } catch (e) {}
-    return route;
+    return trail;
+  }
+
+  String getDuration(HikingTrail? trail) {
+    if (trail != null) {
+      int hours = trail.duration.inHours;
+      int minutes = trail.duration.inMinutes % 60;
+      return '$hours:$minutes h';
+    } else {
+      return "";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<HikingRoute>(
-        future: getRoute(),
-        builder: (BuildContext context, AsyncSnapshot<HikingRoute> snapshot) {
+      body: FutureBuilder<HikingTrail>(
+        future: getTrail(),
+        builder: (BuildContext context, AsyncSnapshot<HikingTrail> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // While waiting for data, show a loading indicator
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            // If there's an error, display an error message
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            // Once data is loaded, render your UI
             final route = snapshot.data;
             return Column(
               children: [
@@ -77,6 +117,7 @@ class _RoutePageState extends State<RoutePage> {
                                 route?.latitude ?? 0.0),
                             zoom: 12),
                         mapType: MapType.normal,
+                        markers: Set<Marker>.of(myMarker),
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
                         },
@@ -126,8 +167,11 @@ class _RoutePageState extends State<RoutePage> {
                                 child: Material(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(30),
-                              child: const InkWell(
-                                child: Padding(
+                              child: InkWell(
+                                onTap: () {
+                                  Get.to(const QRScanner());
+                                },
+                                child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 28),
                                   child: Center(
@@ -215,16 +259,16 @@ class _RoutePageState extends State<RoutePage> {
                                 ),
                               ],
                             ),
-                            const Row(
+                            Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.schedule,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
-                                  '04:00 h',
-                                  style: TextStyle(
+                                  getDuration(route),
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold),

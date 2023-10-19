@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HikingRoute {
+class HikingTrail {
   int id = 0;
   String name = "";
   double length = 0.0;
@@ -10,21 +10,21 @@ class HikingRoute {
   double longitude = 0.0;
   double latitude = 0.0;
 
-  HikingRoute();
+  HikingTrail();
 
-  factory HikingRoute.fromJson(Map<String, dynamic> json) {
-    HikingRoute route = HikingRoute();
+  factory HikingTrail.fromJson(Map<String, dynamic> json) {
+    HikingTrail trail = HikingTrail();
 
-    route.id = int.parse(json['id'].toString());
-    route.name = json['name'];
-    route.length = double.parse(json['length'].toString());
-    route.duration = _parseDuration(json['duration']);
-    route.description = json['description'];
-    route.altitude = int.parse(json['altitude'].toString());
-    route.longitude = double.parse(json['longitude'].toString());
-    route.latitude = double.parse(json['latitude'].toString());
+    trail.id = int.parse(json['id'].toString());
+    trail.name = json['name'];
+    trail.length = double.parse(json['length'].toString());
+    trail.duration = _parseDuration(json['duration']);
+    trail.description = json['description'];
+    trail.altitude = int.parse(json['altitude'].toString());
+    trail.longitude = double.parse(json['longitude'].toString());
+    trail.latitude = double.parse(json['latitude'].toString());
 
-    return route;
+    return trail;
   }
 
   Map<String, dynamic> toJson() => {

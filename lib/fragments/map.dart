@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:boni/route/route_page.dart';
+import 'package:boni/trail/trail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,7 @@ class _Maps extends State<Maps> {
       position: const LatLng(47.18204341853182, 12.229012076544146),
       infoWindow: const InfoWindow(title: "Seebachsee im Obersulzbachtal"),
       onTap: () {
-        Get.to(const RoutePage(
+        Get.to(const TrailPage(
           id: 1,
         ));
       },
