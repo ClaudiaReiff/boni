@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:boni/trail/model/checkpoint.dart';
-import 'package:boni/trail/trail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:boni/api/api_connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -52,8 +50,8 @@ class _QRScanState extends State<QRScanner> {
           double.parse(parts[1]), double.parse(parts[2]), DateTime.now());
 
       try {
-        var response = await http.post(Uri.parse(API.checkTrail),
-            body: checkpoint.toJson());
+        var response =
+            await http.post(Uri.parse(API.checkIn), body: checkpoint.toJson());
         if (response.statusCode == 200) {
           var resBody = jsonDecode(response.body);
           if (resBody['success']) {

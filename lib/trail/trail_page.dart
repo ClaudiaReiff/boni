@@ -104,7 +104,7 @@ class _TrailPageState extends State<TrailPage> {
               child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            final route = snapshot.data;
+            final trail = snapshot.data;
             return Column(
               children: [
                 Expanded(
@@ -114,8 +114,8 @@ class _TrailPageState extends State<TrailPage> {
                       GoogleMap(
                         initialCameraPosition: CameraPosition(
                             target: LatLng(
-                                route?.checkpoints[0].longitude ?? 0.0,
-                                route?.checkpoints[0].latitude ?? 0.0),
+                                trail?.checkpoints[0].longitude ?? 0.0,
+                                trail?.checkpoints[0].latitude ?? 0.0),
                             zoom: 12),
                         mapType: MapType.normal,
                         markers: Set<Marker>.of(myMarker),
@@ -149,7 +149,7 @@ class _TrailPageState extends State<TrailPage> {
                         Row(
                           children: [
                             Text(
-                              route?.name ?? "",
+                              trail?.name ?? "",
                               style: const TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
@@ -222,7 +222,7 @@ class _TrailPageState extends State<TrailPage> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  route?.length.toString() ?? "",
+                                  trail?.length.toString() ?? "",
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: Colors.blue,
@@ -245,7 +245,7 @@ class _TrailPageState extends State<TrailPage> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  route?.altitude.toString() ?? "",
+                                  trail?.altitude.toString() ?? "",
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: Colors.red,
@@ -268,7 +268,7 @@ class _TrailPageState extends State<TrailPage> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  getDuration(route),
+                                  getDuration(trail),
                                   style: const TextStyle(
                                       fontSize: 18,
                                       color: Colors.green,
@@ -297,7 +297,7 @@ class _TrailPageState extends State<TrailPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                route?.description ?? "",
+                                trail?.description ?? "",
                                 style: const TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.white,
