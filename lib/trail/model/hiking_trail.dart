@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:boni/trail/model/checkpoint.dart';
 
 class HikingTrail {
   int id = 0;
@@ -7,8 +7,7 @@ class HikingTrail {
   Duration duration = const Duration(hours: 0, minutes: 0, seconds: 0);
   String description = "";
   int altitude = 0;
-  double longitude = 0.0;
-  double latitude = 0.0;
+  List<Checkpoint> checkpoints = [];
 
   HikingTrail();
 
@@ -21,8 +20,11 @@ class HikingTrail {
     trail.duration = _parseDuration(json['duration']);
     trail.description = json['description'];
     trail.altitude = int.parse(json['altitude'].toString());
-    trail.longitude = double.parse(json['longitude'].toString());
-    trail.latitude = double.parse(json['latitude'].toString());
+
+    List<dynamic> checkpointsJson = json['checkpoints'];
+    trail.checkpoints = checkpointsJson
+        .map((checkpointJson) => Checkpoint.fromJson(checkpointJson))
+        .toList();
 
     return trail;
   }
@@ -34,10 +36,11 @@ class HikingTrail {
         'duration': duration,
         'description': description,
         'altitude': altitude.toString(),
-        'longitude': longitude.toString(),
-        'latitude': latitude.toString()
+        'checkpoints':
+            checkpoints.map((checkpoint) => checkpoint.toJson()).toList(),
       };
 
+  //Parse duration string to duration
   static Duration _parseDuration(String durationString) {
     List<String> timeComponents = durationString.split(':');
     int hours = int.parse(timeComponents[0]);

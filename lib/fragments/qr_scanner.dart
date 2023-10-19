@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:boni/trail/model/checkpoint.dart';
 import 'package:boni/trail/trail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:boni/api/api_connection.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class QRScanner extends StatefulWidget {
   const QRScanner({super.key});
@@ -43,21 +45,24 @@ class _QRScanState extends State<QRScanner> {
   }
 
   void _checkTrail(String data) async {
-    String trailId = "";
     if (data.isNotEmpty) {
-      trailId = data;
+      List<String> parts = data.split('#');
+
+      Checkpoint checkpoint = Checkpoint(0, int.parse(parts[0]),
+          double.parse(parts[1]), double.parse(parts[2]), DateTime.now());
 
       try {
         var response = await http.post(Uri.parse(API.checkTrail),
-            body: {'latitude': '', 'longitude': ''});
+            body: checkpoint.toJson());
         if (response.statusCode == 200) {
           var resBody = jsonDecode(response.body);
+          if (resBody['success']) {
+            Fluttertoast.showToast(msg: "Checked-in successfully.");
+          } else {
+            Fluttertoast.showToast(msg: "Error occured. Please try again.");
+          }
         }
       } catch (e) {}
-
-      Get.to(TrailPage(
-        id: int.parse(trailId),
-      ));
     }
   }
 

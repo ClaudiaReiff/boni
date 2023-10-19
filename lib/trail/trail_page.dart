@@ -113,8 +113,9 @@ class _TrailPageState extends State<TrailPage> {
                     children: [
                       GoogleMap(
                         initialCameraPosition: CameraPosition(
-                            target: LatLng(route?.longitude ?? 0.0,
-                                route?.latitude ?? 0.0),
+                            target: LatLng(
+                                route?.checkpoints[0].longitude ?? 0.0,
+                                route?.checkpoints[0].latitude ?? 0.0),
                             zoom: 12),
                         mapType: MapType.normal,
                         markers: Set<Marker>.of(myMarker),
