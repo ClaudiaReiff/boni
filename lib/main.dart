@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           //automatically login if user info given
           builder: (context, snapshot) {
             if (snapshot.data == null) {
-              return Navigation();
+              return const Login();
             } else {
               return Navigation();
             }

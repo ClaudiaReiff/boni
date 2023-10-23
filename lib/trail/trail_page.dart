@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:boni/fragments/map.dart';
+import 'package:boni/fragments/qr_scanner.dart';
+import 'package:boni/users/model/user.dart';
+import 'package:boni/users/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:boni/api/api_connection.dart';
 import 'package:get/get.dart';
 import 'package:boni/trail/model/hiking_trail.dart';
-import 'package:boni/fragments/qr_scanner.dart';
 
 class TrailPage extends StatefulWidget {
   final int id;
@@ -58,7 +61,6 @@ class _TrailPageState extends State<TrailPage> {
   @override
   void initState() {
     super.initState();
-    getTrail();
     myMarker.addAll(markerList);
   }
 
@@ -77,6 +79,24 @@ class _TrailPageState extends State<TrailPage> {
       }
     } catch (e) {}
     return trail;
+  }
+
+  void validateStart() async {
+    try {
+      User currentUser = UserPreferences.readUserInfo() as User;
+
+      var response = await http.post(Uri.parse(API.validateStart),
+          body: {'userId': currentUser.id, 'trailId': widget.id.toString()});
+
+      if (response.statusCode == 200) {
+        var resBody = jsonDecode(response.body);
+        if (resBody['trailStarted']) {
+          Fluttertoast.showToast(msg: "Trail was already started today.");
+        } else {
+          Get.to(const QRScanner());
+        }
+      }
+    } catch (e) {}
   }
 
   String getDuration(HikingTrail? trail) {
@@ -114,8 +134,8 @@ class _TrailPageState extends State<TrailPage> {
                       GoogleMap(
                         initialCameraPosition: CameraPosition(
                             target: LatLng(
-                                trail?.checkpoints[0].longitude ?? 0.0,
-                                trail?.checkpoints[0].latitude ?? 0.0),
+                                trail?.checkpoints[0].latitude ?? 0.0,
+                                trail?.checkpoints[0].longitude ?? 0.0),
                             zoom: 12),
                         mapType: MapType.normal,
                         markers: Set<Marker>.of(myMarker),
@@ -149,7 +169,7 @@ class _TrailPageState extends State<TrailPage> {
                         Row(
                           children: [
                             Text(
-                              trail?.name ?? "",
+                              trail?.title ?? "",
                               style: const TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
@@ -170,14 +190,14 @@ class _TrailPageState extends State<TrailPage> {
                               borderRadius: BorderRadius.circular(30),
                               child: InkWell(
                                 onTap: () {
-                                  Get.to(const QRScanner());
+                                  validateStart();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 28),
                                   child: Center(
                                     child: Text(
-                                      "Check-in",
+                                      "Start",
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 16),
                                     ),

@@ -2,7 +2,7 @@ import 'package:boni/trail/model/checkpoint.dart';
 
 class HikingTrail {
   int id = 0;
-  String name = "";
+  String title = "";
   double length = 0.0;
   Duration duration = const Duration(hours: 0, minutes: 0, seconds: 0);
   String description = "";
@@ -15,7 +15,7 @@ class HikingTrail {
     HikingTrail trail = HikingTrail();
 
     trail.id = int.parse(json['id'].toString());
-    trail.name = json['name'];
+    trail.title = json['title'];
     trail.length = double.parse(json['length'].toString());
     trail.duration = _parseDuration(json['duration']);
     trail.description = json['description'];
@@ -31,7 +31,7 @@ class HikingTrail {
 
   Map<String, dynamic> toJson() => {
         'id': id.toString(),
-        'name': name,
+        'title': title,
         'length': length.toString(),
         'duration': duration,
         'description': description,

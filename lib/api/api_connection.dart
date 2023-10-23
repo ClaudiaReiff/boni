@@ -10,4 +10,5 @@ class API {
   //Trail
   static const getTrail = "$hostConnect/trail/get_trail.php";
   static const checkIn = "$hostConnect/trail/check_in.php";
+  static const validateStart = "$hostConnect/trail/validate_start.php";
 }

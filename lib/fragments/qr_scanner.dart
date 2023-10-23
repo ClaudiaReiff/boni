@@ -46,8 +46,8 @@ class _QRScanState extends State<QRScanner> {
     if (data.isNotEmpty) {
       List<String> parts = data.split('#');
 
-      Checkpoint checkpoint = Checkpoint(0, int.parse(parts[0]),
-          double.parse(parts[1]), double.parse(parts[2]), DateTime.now());
+      Checkpoint checkpoint = Checkpoint(0, '', int.parse(parts[0]),
+          double.parse(parts[1]), double.parse(parts[2]));
 
       try {
         var response =
