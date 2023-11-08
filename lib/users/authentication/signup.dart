@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
 
   void saveUser() async {
     User user = User(
-        0,
+        "0",
         nameController.text.trim(),
         surnameController.text.trim(),
         emailController.text.trim(),
@@ -325,7 +325,6 @@ class _SignUpState extends State<SignUp> {
                                 child: InkWell(
                                   onTap: () {
                                     if (formKey.currentState!.validate()) {
-                                      //validate email
                                       validateUserEmail();
                                     }
                                   },

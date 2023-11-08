@@ -48,19 +48,6 @@ class _QRScanState extends State<QRScanner> {
 
       Checkpoint checkpoint = Checkpoint(0, '', int.parse(parts[0]),
           double.parse(parts[1]), double.parse(parts[2]));
-
-      try {
-        var response =
-            await http.post(Uri.parse(API.checkIn), body: checkpoint.toJson());
-        if (response.statusCode == 200) {
-          var resBody = jsonDecode(response.body);
-          if (resBody['success']) {
-            Fluttertoast.showToast(msg: "Checked-in successfully.");
-          } else {
-            Fluttertoast.showToast(msg: "Error occured. Please try again.");
-          }
-        }
-      } catch (e) {}
     }
   }
 

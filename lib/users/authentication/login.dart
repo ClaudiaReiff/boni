@@ -44,9 +44,7 @@ class _LoginState extends State<Login> {
               msg: "Email or password incorrect.\nPlease try again.");
         }
       }
-    } catch (e) {
-      print("Error:: " + e.toString());
-    }
+    } catch (e) {}
   }
 
   String? validatePassword(String value) {

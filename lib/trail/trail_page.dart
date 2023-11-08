@@ -2,11 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:boni/fragments/map.dart';
-import 'package:boni/fragments/qr_scanner.dart';
-import 'package:boni/users/model/user.dart';
-import 'package:boni/users/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:boni/api/api_connection.dart';
@@ -79,24 +75,6 @@ class _TrailPageState extends State<TrailPage> {
       }
     } catch (e) {}
     return trail;
-  }
-
-  void validateStart() async {
-    try {
-      User currentUser = UserPreferences.readUserInfo() as User;
-
-      var response = await http.post(Uri.parse(API.validateStart),
-          body: {'userId': currentUser.id, 'trailId': widget.id.toString()});
-
-      if (response.statusCode == 200) {
-        var resBody = jsonDecode(response.body);
-        if (resBody['trailStarted']) {
-          Fluttertoast.showToast(msg: "Trail was already started today.");
-        } else {
-          Get.to(const QRScanner());
-        }
-      }
-    } catch (e) {}
   }
 
   String getDuration(HikingTrail? trail) {
@@ -189,9 +167,7 @@ class _TrailPageState extends State<TrailPage> {
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(30),
                               child: InkWell(
-                                onTap: () {
-                                  validateStart();
-                                },
+                                onTap: () {},
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 28),

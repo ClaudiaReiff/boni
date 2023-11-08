@@ -24,11 +24,31 @@ class _Maps extends State<Maps> {
           id: 1,
         ));
       },
+    ),
+    Marker(
+      markerId: const MarkerId('2'),
+      position: const LatLng(47.12338019984684, 12.300092727656994),
+      infoWindow: const InfoWindow(title: "Kürsingerhütte"),
+      onTap: () {
+        Get.to(const TrailPage(
+          id: 2,
+        ));
+      },
+    ),
+    Marker(
+      markerId: const MarkerId('3'),
+      position: const LatLng(47.26073207487657, 12.207673021237598),
+      infoWindow: const InfoWindow(title: "Gernkogel"),
+      onTap: () {
+        Get.to(const TrailPage(
+          id: 3,
+        ));
+      },
     )
   ];
 
   static const CameraPosition _initialPosition = CameraPosition(
-      target: LatLng(47.18204341853182, 12.229012076544146), zoom: 12);
+      target: LatLng(47.18204341853182, 12.229012076544146), zoom: 11);
 
   @override
   void initState() {
@@ -45,9 +65,6 @@ class _Maps extends State<Maps> {
 
   packData() {
     getUserLocation().then((value) async {
-      print('My Location');
-      print('${value.latitude} ${value.longitude}');
-
       myMarker.add(Marker(
           markerId: const MarkerId('My Location'),
           position: LatLng(value.latitude, value.longitude),
