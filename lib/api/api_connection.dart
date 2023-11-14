@@ -1,7 +1,7 @@
 /// API class contains endpoints for various API requests.
 class API {
   /// Base URL for API requests.
-  static const hostConnect = "http://10.98.28.82/api";
+  static const hostConnect = "https://tool-master.at/boni";
 
   /// Base URL for user-related API requests.
   static const hostConnectUser = "$hostConnect/user";
@@ -17,4 +17,7 @@ class API {
 
   /// API endpoint for getting trail information.
   static const getTrail = "$hostConnect/trail/get_trail.php";
+
+  /// API endpoint to check-in to trail
+  static const checkIn = "$hostConnect/trail/check_in.php";
 }

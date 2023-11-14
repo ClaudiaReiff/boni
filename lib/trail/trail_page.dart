@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:boni/fragments/map.dart';
+import 'package:boni/fragments/qr_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -167,7 +168,9 @@ class _TrailPageState extends State<TrailPage> {
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(30),
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Get.to(QRScanner());
+                                },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 28),
