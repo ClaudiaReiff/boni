@@ -1,4 +1,4 @@
-import 'package:boni/fragments/home.dart';
+import 'package:boni/fragments/tracking.dart';
 import 'package:boni/fragments/map.dart';
 import 'package:boni/fragments/profile.dart';
 import 'package:boni/fragments/search.dart';
@@ -12,27 +12,27 @@ class Navigation extends StatelessWidget {
   CurrentUser currentUser = Get.put(CurrentUser());
 
   final List<Widget> _menuItems = [
-    const Home(),
-    const Search(),
     Maps(),
+    const Tracking(),
+    const Search(),
     Profile()
   ];
 
   final List _navigationProperties = [
     {
-      "active_icon": Icons.home,
-      "none_active_icon": Icons.home_outlined,
-      "label": "Home"
+      "active_icon": Icons.map,
+      "none_active_icon": Icons.map_outlined,
+      "label": "Map"
+    },
+    {
+      "active_icon": Icons.gps_fixed,
+      "none_active_icon": Icons.gps_fixed_outlined,
+      "label": "Tracking"
     },
     {
       "active_icon": Icons.search,
       "none_active_icon": Icons.search_outlined,
       "label": "Search"
-    },
-    {
-      "active_icon": Icons.map,
-      "none_active_icon": Icons.map_outlined,
-      "label": "Map"
     },
     {
       "active_icon": Icons.person,

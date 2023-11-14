@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:boni/fragments/tracking.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -64,6 +65,7 @@ class _QRScanState extends State<QRScanner> {
           var resBody = jsonDecode(response.body);
           if (resBody['success']) {
             Fluttertoast.showToast(msg: "Checked-in successfully.");
+            Get.to(const Tracking());
           } else {
             Fluttertoast.showToast(msg: "Error occured. Please try again.");
           }
